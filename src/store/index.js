@@ -14,10 +14,8 @@ export default createStore({
     },
     addMemo(state, memo) {
       state.memos.push(memo);
-      console.log(memo);
-      console.log(state.memos);
     },
-    editMemo(state, { index, newContent }) {
+    updateMemo(state, { index, newContent }) {
       state.memos[index].content = newContent
     },
     deleteMemo(state, index) {
@@ -28,8 +26,8 @@ export default createStore({
     addMemo({ commit }, memo) {
       commit('addMemo', memo)
     },
-    editMemo({ commit }, payload) {
-      commit('editMemo', payload)
+    updateMemo({ commit }, payload) {
+      commit('updateMemo', payload)
     },
     deleteMemo({ commit }, index) {
       commit('deleteMemo', index)
