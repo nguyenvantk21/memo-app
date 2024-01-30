@@ -4,12 +4,12 @@
       <h2>Login</h2>
 
       <div class="form-group">
-        <label for="email">Email:</label>
+        <label for="email">Email</label>
         <input v-model="email" type="email" id="email" name="email" required />
       </div>
 
       <div class="form-group">
-        <label for="password">Password:</label>
+        <label for="password">Password</label>
         <input
           v-model="password"
           type="password"
@@ -91,14 +91,15 @@ label {
 }
 
 input {
-  width: 100%;
+  width: 98%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #0e0d0d;
   border-radius: 4px;
+  background-color: #fff;
 }
 
 button {
-  background-color: #4caf50;
+  background-color: #5399D9;
   color: white;
   padding: 10px;
   margin-left: 150px;
