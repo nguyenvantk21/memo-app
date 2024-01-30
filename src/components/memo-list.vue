@@ -1,31 +1,25 @@
-<template>
+  <template>
   <div>
-    <h2>Memo List</h2>
     <div v-if="user">
-      <div>
-        <h2>Welcome, {{ user.email }}!</h2>
-        <button @click="logout">Logout</button>
+      <div class="welcome-container">
+        <div class="welcome-email">Welcome, {{ user.email }}!</div>
+        <a @click="logout">Logout</a>
       </div>
     </div>
-    <form v-if="btnType == 'add'" @submit.prevent="addMemo">
-      <label for="memo">Add Memo:</label>
+    <form v-if="btnType == 'add'" class="form-container" @submit.prevent="addMemo">
       <input type="text" id="memo" v-model="newMemo" required />
-      <button type="submit">Add</button>
+      <button type="submit">Add memo</button>
     </form>
-    <form v-if="btnType == 'edit'" @submit.prevent="updateMemo">
-      <label for="memo">Edit Memo:</label>
+    <form v-if="btnType == 'edit'" class="form-container" @submit.prevent="updateMemo">
       <input type="text" id="memo" v-model="editMemoContext" required />
       <button type="submit">Save</button>
+      <button @click="cancelEdit" type="button">Cancel</button>
     </form>
-    <form v-if="btnType == 'edit'" @submit.prevent="cancelEdit">
-      <button type="submit">Cancel</button>
-    </form>
-    <ul>
-      Memo List
+    <ul class="memo-list">
       <li v-for="(memo, index) in memos" :key="index">
-        {{ memo.content }}
-        <button @click="clickToEditMemo(index)">Edit</button>
-        <button @click="deleteMemo(index)">Delete</button>
+        <span class="memo-content">{{ memo.content }}</span>
+        <a class="edit-link" @click="clickToEditMemo(index)">Edit</a>
+        <a class="delete-link" @click="deleteMemo(index)">Delete</a>
       </li>
     </ul>
   </div>
@@ -70,7 +64,7 @@ export default {
       this.btnType = "add";
       this.newMemo = "";
     },
-    cancelEdit() {    
+    cancelEdit() {
       this.btnType = "add";
       this.newMemo = "";
     },
@@ -87,5 +81,77 @@ export default {
 </script>
   
 <style scoped>
+.welcome-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  margin-bottom: 20px;  
+  background-color: #9BBDE4;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  label {
+    margin-bottom: 8px;
+  }
+
+  input {
+    margin-bottom: 16px;
+    margin-top: 16px;
+    padding: 5px;
+    width: 300px;
+  }
+
+  button {
+    padding: 8px;
+    margin-left: 10px;
+    cursor: pointer;
+    width: 100px;
+    background-color: #5399D9;
+    border: none;
+    border-radius: 8px;
+  }
+
+  .memo-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .memo-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    width: 450px;
+  }
+
+  .memo-content {
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+    margin-right: 10px;
+    width: 350px;
+  }
+
+  .edit-link {
+    color: #007bff;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .delete-link {
+    color: #dc3545;
+    cursor: pointer;
+  }
 </style>
   
