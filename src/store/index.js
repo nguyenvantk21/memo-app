@@ -6,11 +6,12 @@ export default createStore({
     memos: [],
   },
   mutations: {
-    loginUser(state, user) {
+    login(state, user) {
       state.user = user;
     },
-    logoutUser(state) {
+    logout(state) {
       state.user = null;
+      state.memos = [];
     },
     addMemo(state, memo) {
       state.memos.push(memo);
@@ -23,6 +24,12 @@ export default createStore({
     }
   },
   actions: {
+    login({ commit }, payload) {
+      commit('login', payload);
+    },
+    logout({ commit }) {
+      commit('logout');
+    },
     addMemo({ commit }, memo) {
       commit('addMemo', memo)
     },

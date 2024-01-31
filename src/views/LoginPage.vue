@@ -44,12 +44,12 @@ export default {
         return;
       }
       // Login success
-      this.$store.commit("loginUser", {
+      this.$store.dispatch("login", {
         email: this.email,
         password: this.password,
       });
       // Redirect MemoList page
-      this.$router.push("/memo-list");
+      this.$router.push("/");
     },
   },
   mounted() {

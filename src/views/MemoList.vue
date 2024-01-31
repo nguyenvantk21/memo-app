@@ -1,11 +1,6 @@
   <template>
   <div>
-    <div v-if="user">
-      <div class="welcome-container">
-        <div class="welcome-email">Welcome, {{ user.email }}!</div>
-        <a @click="logout">Logout</a>
-      </div>
-    </div>
+    <HeaderComponent   />
     <form v-if="btnType == 'add'" class="form-container" @submit.prevent="addMemo">
       <input type="text" id="memo" v-model="newMemo" required />
       <button type="submit">Add memo</button>
@@ -26,6 +21,7 @@
 </template>
   
   <script>
+  import HeaderComponent from '../components/HeaderComponent.vue';
 export default {
   data() {
     return {
@@ -35,18 +31,11 @@ export default {
     };
   },
   computed: {
-    user() {
-      return this.$store.state.user;
-    },
     memos() {
       return this.$store.getters.getAllMemos;
     },
   },
   methods: {
-    logout() {
-      this.$store.dispatch("logout");
-      this.$router.push("/login");
-    },
     addMemo() {
       this.$store.dispatch("addMemo", { content: this.newMemo });
       this.newMemo = "";
@@ -77,20 +66,13 @@ export default {
   mounted() {
     document.title = "Memo Management Page";
   },
+  components: {
+    HeaderComponent,
+  }
 };
 </script>
   
 <style scoped>
-.welcome-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border: 1px solid #cccccc;
-  margin-bottom: 20px;  
-  background-color: #9BBDE4;
-}
-
 .form-container {
     display: flex;
     flex-direction: row;
