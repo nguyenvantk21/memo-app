@@ -5,7 +5,14 @@
 
       <div class="form-group">
         <label for="email">Email</label>
-        <input v-model="email" type="email" id="email" name="email" required />
+        <input
+          v-model="email"
+          type="email"
+          id="email"
+          name="email"
+          @input="validateEmail"
+        />
+        <span v-if="emailError" class="error-message">{{ emailError }}</span>
       </div>
 
       <div class="form-group">
@@ -15,11 +22,11 @@
           type="password"
           id="password"
           name="password"
-          required
+          @input="validatePassword"
         />
-        <div v-if="passwordError" class="error-message">
+        <span v-if="passwordError" class="error-message">
           {{ passwordError }}
-        </div>
+        </span>
       </div>
 
       <button type="submit">Login</button>
@@ -33,14 +40,28 @@ export default {
     return {
       email: "",
       password: "",
+      emailError: "",
       passwordError: null,
     };
   },
   methods: {
+    validateEmail() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      this.emailError = emailRegex.test(this.email) ? "" : "Invalid email";
+    },
+    validatePassword() {
+      const passwordLength = this.password.length;
+      this.passwordError =
+        passwordLength >= 6 && passwordLength <= 20
+          ? ""
+          : "Password must be between 6 and 20 characters.";
+    },
     login() {
-      // Login validate
-      if (this.password.length < 6 || this.password.length > 20) {
-        this.passwordError = "Password must be between 6 and 20 characters.";
+      // Login validate when click button Login
+      this.validateEmail();
+      this.validatePassword();
+      // Check error
+      if (this.emailError !== "" || this.passwordError !== "") {
         return;
       }
       // Login success
@@ -53,7 +74,7 @@ export default {
     },
   },
   mounted() {
-    document.title = 'Login Page';
+    document.title = "Login Page";
   },
 };
 </script>
@@ -99,7 +120,7 @@ input {
 }
 
 button {
-  background-color: #5399D9;
+  background-color: #5399d9;
   color: white;
   padding: 10px;
   margin-left: 150px;
