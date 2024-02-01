@@ -67,7 +67,6 @@ export default {
       // Login success
       this.$store.dispatch("login", {
         email: this.email,
-        password: this.password,
       });
       // Redirect MemoList page
       this.$router.push("/");
