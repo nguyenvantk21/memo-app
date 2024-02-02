@@ -10,7 +10,6 @@
           type="email"
           id="email"
           name="email"
-          @input="validateEmail"
         />
         <span v-if="emailError" class="error-message">{{ emailError }}</span>
       </div>
@@ -22,14 +21,13 @@
           type="password"
           id="password"
           name="password"
-          @input="validatePassword"
         />
         <span v-if="passwordError" class="error-message">
           {{ passwordError }}
         </span>
       </div>
 
-      <button type="submit">Login</button>
+      <button type="submit" :disabled="isDisabled">Login</button>
     </form>
   </div>
 </template>
@@ -42,19 +40,48 @@ export default {
       password: "",
       emailError: "",
       passwordError: null,
+      isDisabled: true
     };
+  },
+  watch: {
+    email() {
+      this.validateEmail();
+      this.checkBtnLogin();
+    },
+    password() {
+      this.validatePassword();
+      this.checkBtnLogin();
+    }
   },
   methods: {
     validateEmail() {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      this.emailError = emailRegex.test(this.email) ? "" : "Invalid email";
+      if (emailRegex.test(this.email)) {
+        this.emailError = "";
+        return true;
+      } else {
+        this.emailError = "Invalid email";
+        return false;
+      }
     },
     validatePassword() {
       const passwordLength = this.password.length;
-      this.passwordError =
-        passwordLength >= 6 && passwordLength <= 20
-          ? ""
-          : "Password must be between 6 and 20 characters.";
+      if (passwordLength >= 6 && passwordLength <= 20) {
+        this.passwordError = "";
+        return true;
+      } else {
+        this.passwordError = "Password must be between 6 and 20 characters.";
+        return false;
+      }
+    },
+    checkBtnLogin() {
+      if (this.emailError || this.passwordError) {
+        this.isDisabled = true;
+      } else if (!this.email || !this.password) {
+        this.isDisabled = true;
+      } else {
+        this.isDisabled = false;
+      }
     },
     login() {
       // Login validate when click button Login
@@ -128,6 +155,11 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }
 
 .error-message {

@@ -1,11 +1,7 @@
   <template>
   <div>
     <HeaderComponent />
-    <form
-      v-if="btnType == 'add'"
-      class="form-container"
-      @submit.prevent="addMemo"
-    >
+    <form v-if="!isEditing" class="form-container" @submit.prevent="addMemo">
       <input
         type="text"
         id="memo"
@@ -14,15 +10,12 @@
       />
       <button type="submit">Add memo</button>
     </form>
-    <form
-      v-if="btnType == 'edit'"
-      class="form-container"
-      @submit.prevent="updateMemo"
-    >
+    <form v-if="isEditing" class="form-container" @submit.prevent="updateMemo">
       <input
         type="text"
         id="memo"
         v-model="editMemoContext"
+        ref="editInput"
         @input="validateMemo(editMemoContext)"
       />
       <button type="submit">Save</button>
@@ -32,8 +25,16 @@
     <ul class="memo-list">
       <li v-for="(memo, index) in memos" :key="index">
         <span class="memo-content">{{ memo.content }}</span>
-        <a class="edit-link" @click="clickToEditMemo(index)">Edit</a>
-        <a class="delete-link" @click="deleteMemo(index)">Delete</a>
+        <a
+          :class="{ 'edit-link': !isEditing, disabled: isEditing }"
+          @click="clickToEditMemo(index)"
+          >Edit</a
+        >
+        <a
+          :class="{ 'delete-link': !isEditing, disabled: isEditing }"
+          @click="deleteMemo(index)"
+          >Delete</a
+        >
       </li>
     </ul>
   </div>
@@ -45,7 +46,7 @@ export default {
   data() {
     return {
       newMemoContent: "",
-      btnType: "add",
+      isEditing: false,
       currentIndex: null,
       memoError: "",
     };
@@ -78,8 +79,11 @@ export default {
     },
     clickToEditMemo(index) {
       this.memoError = "";
-      this.btnType = "edit";
+      this.isEditing = true;
       this.editMemoContext = this.memos[index].content;
+      this.$nextTick(() => {
+        this.$refs.editInput.focus();
+      });
       this.currentIndex = index;
     },
     updateMemo() {
@@ -95,11 +99,11 @@ export default {
         index: this.currentIndex,
         newContent: this.editMemoContext,
       });
-      this.btnType = "add";
+      this.isEditing = false;
       this.newMemoContent = "";
     },
     cancelEdit() {
-      this.btnType = "add";
+      this.isEditing = false;
       this.newMemoContent = "";
       this.memoError = "";
     },
@@ -180,6 +184,14 @@ button {
 .delete-link {
   color: #dc3545;
   cursor: pointer;
+}
+
+.disabled {
+  color: #808080;
+  pointer-events: none;
+  text-decoration: none;
+  cursor: not-allowed;
+  margin-right: 10px;
 }
 
 .error-message {
