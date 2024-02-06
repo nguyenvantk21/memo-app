@@ -16,6 +16,19 @@ exports.login = (req, res) => {
     res.json({ success: true, user });
 };
 
+exports.logout = (req, res) => {
+    if (req.session.user) {
+        req.session.destroy((err) => {
+            if (err) {
+                return res.status(500).json({ error: 'Internal Server Error' });
+            }
+            res.json({ success: true, message: 'Logout successful' });
+        });
+    } else {
+        res.status(401).json({ error: 'Not logged in' });
+    }
+};
+
 const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);

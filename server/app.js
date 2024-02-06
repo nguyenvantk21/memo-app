@@ -10,6 +10,7 @@ app.use(session({
     secret: 'memo-app-login',
     resave: false,
     saveUninitialized: true,
+    cookie: { maxAge: 1800000 } //30 minutes
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
