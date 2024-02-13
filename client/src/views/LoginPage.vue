@@ -5,12 +5,7 @@
 
       <div class="form-group">
         <label for="email">Email</label>
-        <input
-          v-model="email"
-          type="email"
-          id="email"
-          name="email"
-        />
+        <input v-model="email" type="email" id="email" name="email" />
         <span v-if="emailError" class="error-message">{{ emailError }}</span>
       </div>
 
@@ -40,7 +35,7 @@ export default {
       password: "",
       emailError: "",
       passwordError: null,
-      isDisabled: true
+      isDisabled: true,
     };
   },
   watch: {
@@ -51,7 +46,7 @@ export default {
     password() {
       this.validatePassword();
       this.checkBtnLogin();
-    }
+    },
   },
   methods: {
     validateEmail() {
@@ -91,12 +86,32 @@ export default {
       if (this.emailError !== "" || this.passwordError !== "") {
         return;
       }
-      // Login success
-      this.$store.dispatch("login", {
-        email: this.email,
-      });
-      // Redirect MemoList page
-      this.$router.push("/");
+      this.handleLogin();
+    },
+    async handleLogin() {
+      try {
+        const response = await this.$axios.post(
+          "/api/login",
+          {
+            email: this.email,
+            password: this.password,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+
+        this.$store.dispatch("login", {
+          email: response.data.email,
+        });
+        this.$router.push("/");
+      } catch (error) {
+        if (error.response) {
+            alert(error.response.data.error || "Login failed.");
+        } else {
+          alert("Server error.")
+        }
+      }
     },
   },
   mounted() {

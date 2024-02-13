@@ -1,5 +1,9 @@
 const User = require('../models/user');
 
+const users = [
+    { id: 1, email: "test@example.com", password: "111111" },
+];
+
 exports.login = (req, res) => {
     const { email, password } = req.body;
     if (!email) {
@@ -11,9 +15,13 @@ exports.login = (req, res) => {
         return res.status(400).json({ error: 'Invalid email or password' });
     }
 
-    const user = new User(email, password);
-    req.session.user = user;
-    res.json({ success: true, user });
+    const user = users.find((user) => user.email === email && user.password === password);
+    if (user) {
+        req.session.user = user;
+        res.json({ success: true, user: { id: user.id, email: user.email } });
+    } else {
+        res.status(401).json({ error: "Invalid credentials" });
+    }
 };
 
 exports.logout = (req, res) => {

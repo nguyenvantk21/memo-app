@@ -1,10 +1,13 @@
 const express = require('express');
 const session = require('express-session');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 const port = 3000;
+
+app.use(cors({ origin: 'http://localhost:8080', credentials: true }));
 
 app.use(session({
     secret: 'memo-app-login',
