@@ -18,7 +18,10 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.get('/', (req, res) => {
+    const responseData = { message: 'Server ready!' };
+    res.json(responseData);
+});
 app.use('/api', authRoutes);
 
 app.listen(port, () => {

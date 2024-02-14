@@ -2,9 +2,10 @@
     "name": "memo-app",
     "version": "1.0.0",
     "scripts": {
-        "start": "node server/app.js",
+        "start": "set NODE_ENV=production&& node server/app.js",
+        "start-dev": "set NODE_ENV=development&& node server/app.js",
         "serve": "vue-cli-service serve ./client/src/main.js",
-        "build": "vue-cli-service build",
+        "build": "vue-cli-service build ./client/src/main.js",
         "lint": "vue-cli-service lint"
     },
     "dependencies": {
