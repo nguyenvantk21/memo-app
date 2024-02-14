@@ -20,7 +20,12 @@ npm run build
 npm run lint
 ```
 
-### Server: Run server
+### Server: Run server (product environment)
 ```
 npm run start
+```
+
+### Server: Run server (local environment)
+```
+npm run start-dev
 ```
