@@ -26,101 +26,101 @@
     </form>
   </div>
 </template>
-  
-  <script>
+
+<script>
 export default {
   data() {
     return {
-      email: "",
-      password: "",
-      emailError: "",
+      email: '',
+      password: '',
+      emailError: '',
       passwordError: null,
       isDisabled: true,
-    };
+    }
   },
   watch: {
     email() {
-      this.validateEmail();
-      this.checkBtnLogin();
+      this.validateEmail()
+      this.checkBtnLogin()
     },
     password() {
-      this.validatePassword();
-      this.checkBtnLogin();
+      this.validatePassword()
+      this.checkBtnLogin()
     },
   },
   methods: {
     validateEmail() {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (emailRegex.test(this.email)) {
-        this.emailError = "";
-        return true;
+        this.emailError = ''
+        return true
       } else {
-        this.emailError = "Invalid email";
-        return false;
+        this.emailError = 'Invalid email'
+        return false
       }
     },
     validatePassword() {
-      const passwordLength = this.password.length;
+      const passwordLength = this.password.length
       if (passwordLength >= 6 && passwordLength <= 20) {
-        this.passwordError = "";
-        return true;
+        this.passwordError = ''
+        return true
       } else {
-        this.passwordError = "Password must be between 6 and 20 characters.";
-        return false;
+        this.passwordError = 'Password must be between 6 and 20 characters.'
+        return false
       }
     },
     checkBtnLogin() {
       if (this.emailError || this.passwordError) {
-        this.isDisabled = true;
+        this.isDisabled = true
       } else if (!this.email || !this.password) {
-        this.isDisabled = true;
+        this.isDisabled = true
       } else {
-        this.isDisabled = false;
+        this.isDisabled = false
       }
     },
     login() {
       // Login validate when click button Login
-      this.validateEmail();
-      this.validatePassword();
+      this.validateEmail()
+      this.validatePassword()
       // Check error
-      if (this.emailError !== "" || this.passwordError !== "") {
-        return;
+      if (this.emailError !== '' || this.passwordError !== '') {
+        return
       }
-      this.handleLogin();
+      this.handleLogin()
     },
     async handleLogin() {
       try {
         const response = await this.$axios.post(
-          "/api/login",
+          '/api/login',
           {
             email: this.email,
             password: this.password,
           },
           {
             withCredentials: true,
-          }
-        );
+          },
+        )
 
-        this.$store.dispatch("login", {
+        this.$store.dispatch('login', {
           email: response.data.email,
-        });
-        this.$router.push("/");
+        })
+        this.$router.push('/')
       } catch (error) {
         if (error.response) {
-            alert(error.response.data.error || "Login failed.");
+          alert(error.response.data.error || 'Login failed.')
         } else {
-          alert("Server error.")
+          alert('Server error.')
         }
       }
     },
   },
   mounted() {
-    document.title = "Login Page";
+    document.title = 'Login Page'
   },
-};
+}
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .login-container {
   display: flex;
   align-items: center;
@@ -183,4 +183,3 @@ button:disabled {
   margin-top: 5px;
 }
 </style>
-  

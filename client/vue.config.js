@@ -3,7 +3,5 @@
 //   transpileDependencies: true
 // })
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/memo-app/'
-    : '/'
+  publicPath: process.env.NODE_ENV === 'production' ? '/memo-app/' : '/',
 }

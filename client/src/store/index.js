@@ -1,4 +1,4 @@
-import { createStore } from 'vuex';
+import { createStore } from 'vuex'
 
 export default createStore({
   state: {
@@ -7,28 +7,28 @@ export default createStore({
   },
   mutations: {
     login(state, user) {
-      state.user = user;
+      state.user = user
     },
     logout(state) {
-      state.user = null;
-      state.memos = [];
+      state.user = null
+      state.memos = []
     },
     addMemo(state, memo) {
-      state.memos.push(memo);
+      state.memos.push(memo)
     },
     updateMemo(state, { index, newContent }) {
       state.memos[index].content = newContent
     },
     deleteMemo(state, index) {
       state.memos.splice(index, 1)
-    }
+    },
   },
   actions: {
     login({ commit }, payload) {
-      commit('login', payload);
+      commit('login', payload)
     },
     logout({ commit }) {
-      commit('logout');
+      commit('logout')
     },
     addMemo({ commit }, memo) {
       commit('addMemo', memo)
@@ -38,9 +38,9 @@ export default createStore({
     },
     deleteMemo({ commit }, index) {
       commit('deleteMemo', index)
-    }
+    },
   },
   getters: {
-    getAllMemos: state => state.memos
-  }
-});
+    getAllMemos: (state) => state.memos,
+  },
+})

@@ -6,23 +6,23 @@
     </div>
   </div>
 </template>
-  
+
 <script>
 export default {
   computed: {
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user
     },
   },
   methods: {
     logout() {
-      this.$store.dispatch("logout");
-      this.$router.push("/login");
-    }
+      this.$store.dispatch('logout')
+      this.$router.push('/login')
+    },
   },
-};
+}
 </script>
-  
+
 <style scoped>
 .welcome-container {
   display: flex;
@@ -34,4 +34,3 @@ export default {
   background-color: #9bbde4;
 }
 </style>
-  

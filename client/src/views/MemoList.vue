@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div>
     <HeaderComponent />
     <form v-if="!isEditing" class="form-container" @submit.prevent="addMemo">
@@ -39,89 +39,89 @@
     </ul>
   </div>
 </template>
-  
-  <script>
-import HeaderComponent from "../components/HeaderComponent.vue";
+
+<script>
+import HeaderComponent from '../components/HeaderComponent.vue'
 export default {
   data() {
     return {
-      newMemoContent: "",
+      newMemoContent: '',
       isEditing: false,
       currentIndex: null,
-      memoError: "",
-    };
+      memoError: '',
+    }
   },
   computed: {
     memos() {
-      return this.$store.getters.getAllMemos;
+      return this.$store.getters.getAllMemos
     },
   },
   methods: {
     validateMemo(memoContent) {
-      this.memoError = "";
-      const memoLength = memoContent.length;
+      this.memoError = ''
+      const memoLength = memoContent.length
       if (memoLength > 2000) {
-        this.memoError = "Memo content must be less than 2000 characters.";
-        return;
+        this.memoError = 'Memo content must be less than 2000 characters.'
+        return
       }
     },
     addMemo() {
-      if (this.newMemoContent.trim() == "") {
-        this.memoError = "Memo content is required.";
-        return;
+      if (this.newMemoContent.trim() == '') {
+        this.memoError = 'Memo content is required.'
+        return
       }
-      this.validateMemo(this.newMemoContent);
-      if (this.memoError !== "") {
-        return;
+      this.validateMemo(this.newMemoContent)
+      if (this.memoError !== '') {
+        return
       }
-      this.$store.dispatch("addMemo", { content: this.newMemoContent });
-      this.newMemoContent = "";
+      this.$store.dispatch('addMemo', { content: this.newMemoContent })
+      this.newMemoContent = ''
     },
     clickToEditMemo(index) {
-      this.memoError = "";
-      this.isEditing = true;
-      this.editMemoContext = this.memos[index].content;
+      this.memoError = ''
+      this.isEditing = true
+      this.editMemoContext = this.memos[index].content
       this.$nextTick(() => {
-        this.$refs.editInput.focus();
-      });
-      this.currentIndex = index;
+        this.$refs.editInput.focus()
+      })
+      this.currentIndex = index
     },
     updateMemo() {
-      if (this.editMemoContext.trim() == "") {
-        this.memoError = "Memo content is required.";
-        return;
+      if (this.editMemoContext.trim() == '') {
+        this.memoError = 'Memo content is required.'
+        return
       }
-      this.validateMemo(this.editMemoContext);
-      if (this.memoError !== "") {
-        return;
+      this.validateMemo(this.editMemoContext)
+      if (this.memoError !== '') {
+        return
       }
-      this.$store.dispatch("updateMemo", {
+      this.$store.dispatch('updateMemo', {
         index: this.currentIndex,
         newContent: this.editMemoContext,
-      });
-      this.isEditing = false;
-      this.newMemoContent = "";
+      })
+      this.isEditing = false
+      this.newMemoContent = ''
     },
     cancelEdit() {
-      this.isEditing = false;
-      this.newMemoContent = "";
-      this.memoError = "";
+      this.isEditing = false
+      this.newMemoContent = ''
+      this.memoError = ''
     },
     deleteMemo(index) {
-      if (confirm("Are you sure you want to delete this memo?")) {
-        this.$store.dispatch("deleteMemo", index);
+      if (confirm('Are you sure you want to delete this memo?')) {
+        this.$store.dispatch('deleteMemo', index)
       }
     },
   },
   mounted() {
-    document.title = "Memo Management Page";
+    document.title = 'Memo Management Page'
   },
   components: {
     HeaderComponent,
   },
-};
+}
 </script>
-  
+
 <style scoped>
 .form-container {
   display: flex;
@@ -201,4 +201,3 @@ button {
   margin: auto;
 }
 </style>
-  
